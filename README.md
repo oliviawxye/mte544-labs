@@ -67,10 +67,15 @@ If you are using MacOS with apple silicon, the script above will not work. Pleas
 You can download the [VMWare for Mac](https://uofwaterloo-my.sharepoint.com/:u:/g/personal/m3ning_uwaterloo_ca/EcT9JtYERmdDgfo3bLKwcycBD9YJK1bTfYdmXHCT3Qe8Sw?e=ftKpPs) and the [Ubuntu 22.04 Desktop ARM64](https://uofwaterloo-my.sharepoint.com/:u:/g/personal/m3ning_uwaterloo_ca/EVgtqnAW51tKqpuYDOSf0vQB2sciaAPxsEJ6VpZDuztRsw?e=JJEYbZ) from the links provided.
 
 ## Check your installation
-Once the script has finished the installation, you can quickly check the performance of your system with the Gazebo simulation. Open a terminal and run:
+Once the script has finished the installation, you can quickly check the performance of your system with the Gazebo simulation. Open a terminal and set the TurtleBot3 model:
+```
+export TURTLEBOT3_MODEL=burger
+```
+Then, launch the simulation:
 ```
 ros2 launch turtlebot3_gazebo turtlebot3_house.launch.py
 ```
+
 You should see something like this:
 
 ![image](figs/gazebo_window.png)
