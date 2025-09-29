@@ -84,8 +84,8 @@ class motion_executioner(Node):
         angular_velocity = imu_msg.angular_velocity
         linear_acceleration = imu_msg.linear_acceleration
 
-        # print(f"IMU: ang_z {angular_velocity.z}, acc_x {linear_acceleration.x}, acc_y {linear_acceleration.y}, stamp {timestamp}")
-        # self.imu_logger.log_values([linear_acceleration.x, linear_acceleration.y, angular_velocity.z, timestamp])
+        print(f"IMU: ang_z {angular_velocity.z}, acc_x {linear_acceleration.x}, acc_y {linear_acceleration.y}, stamp {timestamp}")
+        self.imu_logger.log_values([linear_acceleration.x, linear_acceleration.y, angular_velocity.z, timestamp])
 
         if not self.imu_initialized:
             self.imu_initialized = True
@@ -95,10 +95,10 @@ class motion_executioner(Node):
 
         position = odom_msg.pose.pose.position
         orientation = odom_msg.pose.pose.orientation
-        # euler = euler_from_quaternion(orientation)
+        euler = euler_from_quaternion(orientation)
 
-        # print(f"ODOM: x {position.x}, y {position.y}, th {orientation.z}, stamp {timestamp}")
-        # self.odom_logger.log_values([position.x, position.y, euler, timestamp])
+        print(f"ODOM: x {position.x}, y {position.y}, th {orientation.z}, stamp {timestamp}")
+        self.odom_logger.log_values([position.x, position.y, euler, timestamp])
 
         if not self.odom_initialized:
             self.odom_initialized = True
@@ -109,7 +109,7 @@ class motion_executioner(Node):
         ranges = laser_msg.ranges
         angle_increment = laser_msg.angle_increment
 
-        print(f"{ranges}, angle_increment {angle_increment}, stamp {timestamp}")
+        print(f"LASER: ranges {ranges}, angle_increment {angle_increment}, stamp {timestamp}")
         self.laser_logger.log_values([ranges, angle_increment, timestamp])
 
         if not self.laser_initialized:
@@ -149,8 +149,8 @@ class motion_executioner(Node):
         msg=Twist()
 
         # A higher linear velocity with slow angular velocity will make a circle
-        msg.linear.x = 0.2  
-        msg.angular.z = 0.1
+        msg.linear.x = 0.5
+        msg.angular.z = 0.3
         
         return msg
 
@@ -158,8 +158,8 @@ class motion_executioner(Node):
         msg=Twist()
 
         # A higher angular velocity with slow linear velocity will make "spiral"
-        msg.linear.x = 0.1  # Set a constant linear velocity
-        msg.angular.z = 0.2  # Set a constant linear velocity
+        msg.linear.x = 0.3  # Set a constant linear velocity
+        msg.angular.z = 0.5  # Set a constant linear velocity
         
         return msg
     
@@ -167,7 +167,7 @@ class motion_executioner(Node):
         msg=Twist()
 
         # A linear velocity with no angular velocity will make a straight line
-        msg.linear.x = 0.1  # Set a constant linear velocity
+        msg.linear.x = 0.5  # Set a constant linear velocity
         msg.angular.z = 0.0  # Set a constant linear velocity
 
         return msg
@@ -175,32 +175,22 @@ class motion_executioner(Node):
 import argparse
 
 if __name__=="__main__":
-    
-
     argParser=argparse.ArgumentParser(description="input the motion type")
 
-
-    argParser.add_argument("--motion", type=str, default="line")
-
-
+    argParser.add_argument("--motion", type=str, default="circle")
 
     rclpy.init()
 
     args = argParser.parse_args()
 
     if args.motion.lower() == "circle":
-
         ME=motion_executioner(motion_type=CIRCLE)
     elif args.motion.lower() == "line":
         ME=motion_executioner(motion_type=ACC_LINE)
-
     elif args.motion.lower() =="spiral":
         ME=motion_executioner(motion_type=SPIRAL)
-
     else:
         print(f"we don't have {args.motion.lower()} motion type")
-
-
     
     try:
         rclpy.spin(ME)
