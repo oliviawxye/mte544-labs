@@ -11,7 +11,7 @@ class Logger:
 
             for header in headers:
                 header_str+=header
-                header_str+=", "
+                header_str+="; "
             
             header_str+="\n"
             
