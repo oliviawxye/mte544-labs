@@ -109,8 +109,8 @@ class motion_executioner(Node):
         ranges = laser_msg.ranges
         angle_increment = laser_msg.angle_increment
 
-        print(f"LASER: ranges: {ranges}, angle_increment {angle_increment}, stamp {timestamp}")
-        # self.laser_logger.log_values([ranges, angle_increment, timestamp])
+        print(f"{ranges}, angle_increment {angle_increment}, stamp {timestamp}")
+        self.laser_logger.log_values([ranges, angle_increment, timestamp])
 
         if not self.laser_initialized:
             self.laser_initialized = True
