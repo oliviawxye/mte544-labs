@@ -24,14 +24,13 @@ class controller:
         e_lin=calculate_linear_error(pose, goal)
         e_ang=calculate_angular_error(pose, goal)
 
-
         linear_vel=self.PID_linear.update([e_lin, pose[3]], status)
         angular_vel=self.PID_angular.update([e_ang, pose[3]], status)
         
         # TODO Part 4: Add saturation limits for the robot linear and angular velocity (hint: you can use np.clip function)
-
-        linear_vel = ... 
-        angular_vel= ... 
+        # Specifications documented here: https://turtlebot.github.io/turtlebot4-user-manual/overview/features.html#hardware-specifications
+        linear_vel = np.clip(linear_vel, [-0.31, 0.31]) 
+        angular_vel= np.clip(angular_vel, [-1.90, 1.90])
         
         return linear_vel, angular_vel
     
