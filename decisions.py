@@ -18,7 +18,7 @@ from localization import localization, rawSensor
 from planner import TRAJECTORY_PLANNER, POINT_PLANNER, planner
 from controller import controller, trajectoryController
 
-import rclpy.qos as Qos
+from rclpy.qos import QoSProfile, ReliabilityPolicy, DurabilityPolicy, HistoryPolicy
 import utilities
 
 ACCEPTABLE_LIN_ERR=0.05   # in meters
@@ -53,7 +53,7 @@ class decision_maker(Node):
 
 
         # Instantiate the localization, use rawSensor for now  
-        self.localizer=localization(rawSensor)
+        self.localizer=localization(rawSensor, qos_publisher)
 
         # Instantiate the planner
         # NOTE: goalPoint is used only for the pointPlanner
@@ -78,10 +78,10 @@ class decision_maker(Node):
         current_pose = self.localizer.getPose()
         if type(self.goal) == list:
             goal_point = self.goal[-1]
-            reached_goal = True if calculate_linear_error(current_pose, goal_point) < ACCEPTABLE_LIN_ERR & calculate_angular_error(current_pose, goal_point) < ACCEPTABLE_ANG_ERR else False 
+            reached_goal = True if calculate_linear_error(current_pose, goal_point) < ACCEPTABLE_LIN_ERR and calculate_angular_error(current_pose, goal_point) < ACCEPTABLE_ANG_ERR else False 
         else: 
             goal_point = self.goal
-            reached_goal = True if calculate_linear_error(current_pose, goal_point) < ACCEPTABLE_LIN_ERR & calculate_angular_error(current_pose, goal_point) < ACCEPTABLE_ANG_ERR else False 
+            reached_goal = True if calculate_linear_error(current_pose, goal_point) < ACCEPTABLE_LIN_ERR and calculate_angular_error(current_pose, goal_point) < ACCEPTABLE_ANG_ERR else False 
         
 
         if reached_goal:
@@ -112,9 +112,9 @@ def main(args=None):
     # Remember to define your QoS profile based on the information available in "ros2 topic info /odom --verbose" as explained in Tutorial 3
     
     odom_qos = QoSProfile(
-        reliability=Qos.ReliabilityPolicy.RELIABLE, 
-        durability=Qos.DurabilityPolicy.VOLATILE, 
-        history=Qos.HistoryPolicy.UNKNOWN, 
+        reliability=ReliabilityPolicy.RELIABLE, 
+        durability=DurabilityPolicy.VOLATILE, 
+        history=HistoryPolicy.KEEP_LAST, 
         depth=10
     ) # For simulation
     

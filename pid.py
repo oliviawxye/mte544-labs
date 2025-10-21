@@ -76,10 +76,10 @@ class PID_ctrl:
         # This calculates the error derivative usingo only the last X history specified (3, here)
         for i in range(1, len(self.history)):
             
-            t0=Time.from_msg(self.history[i-1][1])
-            t1=Time.from_msg(self.history[i][1])
+            t0=self.history[i-1][1]
+            t1=self.history[i][1]
             
-            dt=(t1.nanoseconds - t0.nanoseconds) / 1e9
+            dt=(t1 - t0) / 1e9
             
             dt_avg+=dt
 
@@ -102,7 +102,7 @@ class PID_ctrl:
         error_int = sum_
         
         # TODO Part 4: Log your errors
-        self.logger.log_values(latest_error, error_dot, error_int, stamp)
+        self.logger.log_values([latest_error, error_dot, error_int, stamp])
 
         # Calculate proportional term
         p = self.kp * latest_error
