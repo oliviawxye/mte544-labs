@@ -87,8 +87,9 @@ class PID_ctrl:
             # for example dt=0.1 overwriting the calculation          
             
             # TODO Part 5: calculate the error dot 
-            error_dot+= latest_error
-            
+            # error_dot+= latest_error
+            error_dot += (self.history[i][0] - self.history[i-1][0]) / dt
+                        
         error_dot/=len(self.history)
         dt_avg/=len(self.history)
         

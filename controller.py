@@ -7,6 +7,13 @@ from utilities import euler_from_quaternion, calculate_angular_error, calculate_
 M_PI=3.1415926535
 
 P=0; PD=1; PI=2; PID=3
+# LINEAR_VEL_MAX = 0.31
+# ANGULAR_VEL_MAX = 1.90
+
+#FOR SIMULATION:
+LINEAR_VEL_MAX = 0.22
+ANGULAR_VEL_MAX = 2.84
+
 
 class controller:
     
@@ -29,9 +36,12 @@ class controller:
         angular_vel=self.PID_angular.update([e_ang, pose[3]], status)
         
         # TODO Part 4: Add saturation limits for the robot linear and angular velocity (hint: you can use np.clip function)
-        linear_vel = np.clip(linear_vel, -0.31, 0.31) 
-        angular_vel= np.clip(angular_vel, -1.90, 1.90)
+        # linear_vel = np.clip(linear_vel, -LINEAR_VEL_MAX, LINEAR_VEL_MAX) 
+        # angular_vel= np.clip(angular_vel, -ANGULAR_VEL_MAX, ANGULAR_VEL_MAX) 
         
+        linear_vel = np.clip(linear_vel, -LINEAR_VEL_MAX, LINEAR_VEL_MAX) 
+        angular_vel= np.clip(angular_vel, -ANGULAR_VEL_MAX, ANGULAR_VEL_MAX) 
+
         return linear_vel, angular_vel
     
 
@@ -54,8 +64,8 @@ class trajectoryController(controller):
         angular_vel=self.PID_angular.update([e_ang, pose[3]], status) 
 
         # TODO Part 5: Add saturation limits for the robot linear and angular velocity (hint: you can use np.clip function)
-        linear_vel = np.clip(linear_vel, -0.31, 0.31) 
-        angular_vel= np.clip(angular_vel, -1.90, 1.90) 
+        linear_vel = np.clip(linear_vel, -LINEAR_VEL_MAX, LINEAR_VEL_MAX) 
+        angular_vel= np.clip(angular_vel, -ANGULAR_VEL_MAX, ANGULAR_VEL_MAX) 
         
         return linear_vel, angular_vel
 

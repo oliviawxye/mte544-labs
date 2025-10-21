@@ -39,7 +39,8 @@ class decision_maker(Node):
         # TODO Part 5: Tune your parameters here
         #    
         if motion_type == POINT_PLANNER:
-            self.controller=controller(klp=0.5, klv=0.3, kli=0.1, kap=1.0, kav=0.4, kai=0.05)
+            # self.controller=controller(klp=0.5, klv=0.3, kli=0.1, kap=1.0, kav=0.4, kai=0.05)
+            self.controller=controller(klp=0.3, klv=0.1, kli=0.05, kap=0.5, kav=0.2, kai=0.02)
             self.planner=planner(POINT_PLANNER)    
     
     
@@ -126,9 +127,9 @@ def main(args=None):
 
     # TODO Part 4: instantiate the decision_maker with the proper parameters for moving the robot
     if args.motion.lower() == "point":
-        DM=decision_maker(Twist, "/cmd_vel", odom_qos, [-1.0, -1.0], 10, POINT_PLANNER)
+        DM=decision_maker(Twist, "/cmd_vel", odom_qos, [0.5, 0.5], 10, POINT_PLANNER)
     elif args.motion.lower() == "trajectory":
-        DM=decision_maker(Twist, "/cmd_vel", odom_qos, [-1.0, -1.0], 10, TRAJECTORY_PLANNER)
+        DM=decision_maker(Twist, "/cmd_vel", odom_qos, [0.9, 0.9], 10, TRAJECTORY_PLANNER)
     else:
         print("invalid motion type", file=sys.stderr)        
     
