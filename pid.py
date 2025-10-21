@@ -22,7 +22,7 @@ class PID_ctrl:
         self.ki=ki    # integral gain
         
         self.logger=Logger(filename_)
-        # Remeber that you asre writing to the file named filename_ or errors.csv the following:
+        # Remeber that you are writing to the file named filename_ or errors.csv the following:
             # error, error_dot, error_int and time stamp
 
     
