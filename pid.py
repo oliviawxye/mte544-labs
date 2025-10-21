@@ -26,7 +26,7 @@ class PID_ctrl:
             # error, error_dot, error_int and time stamp
 
     
-    def update(self, stamped_error: list, status: bool) -> tuple[float, float]:
+    def update(self, stamped_error: list, status: bool) -> float:
         """Update the next linear and angular velocities
 
         Args:
@@ -47,7 +47,7 @@ class PID_ctrl:
             return self.__update(stamped_error)
 
         
-    def __update(self, stamped_error: list) -> tuple[float, float]:
+    def __update(self, stamped_error: list) -> float:
         """Update the next linear and angular velocities
 
         Args:
