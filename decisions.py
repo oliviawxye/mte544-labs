@@ -18,9 +18,6 @@ from localization import localization, rawSensor
 from planner import TRAJECTORY_PLANNER, POINT_PLANNER, planner
 from controller import controller, trajectoryController
 
-# You may add any other imports you may need/want to use below
-# import ...
-
 import rclpy.qos as Qos
 import utilities
 
@@ -41,14 +38,17 @@ class decision_maker(Node):
         
         # Instantiate the controller
         # TODO Part 5: Tune your parameters here
+        # Tuned parameters for better performance:
+        # Linear: kp=0.5 (proportional), kv=0.3 (derivative), ki=0.1 (integral)
+        # Angular: kp=1.0 (proportional), kv=0.4 (derivative), ki=0.05 (integral)
     
         if motion_type == POINT_PLANNER:
-            self.controller=controller(klp=0.2, klv=0.5, kap=0.8, kav=0.6)
+            self.controller=controller(klp=0.5, klv=0.3, kli=0.1, kap=1.0, kav=0.4, kai=0.05)
             self.planner=planner(POINT_PLANNER)    
     
     
         elif motion_type==TRAJECTORY_PLANNER:
-            self.controller=trajectoryController(klp=0.2, klv=0.5, kap=0.8, kav=0.6)
+            self.controller=trajectoryController(klp=0.5, klv=0.3, kli=0.1, kap=1.0, kav=0.4, kai=0.05)
             self.planner=planner(TRAJECTORY_PLANNER)
 
         else:
