@@ -19,7 +19,7 @@ class localization(Node):
         odom_qos=QoSProfile( # TODO Part 3: Define the QoS profile variable based on whether you are using the simulation (Turtlebot 3 Burger) or the real robot (Turtlebot 4)
             reliability=ReliabilityPolicy.RELIABLE, # 1 for real, Qos.ReliabilityPolicy.RELIABLE for sim
             durability=DurabilityPolicy.VOLATILE, # 2 for real, Qos.DurabilityPolicy.VOLATILE for sim
-            history=HistoryPolicy.UNKNOWN, # 1 for real, Qos.HistoryPolicy.UNKNOWN for sim
+            history=HistoryPolicy.KEEP_LAST, # 1 for real, Qos.HistoryPolicy.KEEP_LAST for sim
             depth=10)
     ):
 
@@ -30,7 +30,7 @@ class localization(Node):
         
         if localizationType == rawSensor:
         # TODO Part 3: subscribe to the position sensor topic (Odometry)
-         self.create_subscription(odom, '/odom', self.odom_callback, odom_qos)
+            self.create_subscription(odom, '/odom', self.odom_callback, odom_qos)
 
         else:
             print("This type doesn't exist", sys.stderr)
