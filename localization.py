@@ -4,24 +4,27 @@ from utilities import Logger, euler_from_quaternion
 from rclpy.time import Time
 from rclpy.node import Node
 
-from rclpy.qos import QoSProfile
+from rclpy.qos import QoSProfile, ReliabilityPolicy, DurabilityPolicy, HistoryPolicy
 from nav_msgs.msg import Odometry as odom
 
 from rclpy import init, spin
-import rclpy.qos as Qos
 import rclpy
 
 rawSensor = 0
 class localization(Node):
     
-    def __init__(self, localizationType=rawSensor, odom_qos=QoSProfile(reliability=Qos.ReliabilityPolicy.RELIABLE, durability=Qos.DurabilityPolicy.VOLATILE, history=Qos.HistoryPolicy.UNKNOWN, depth=10)):
+    def __init__(
+        self, 
+        localizationType=rawSensor, 
+        odom_qos=QoSProfile( # TODO Part 3: Define the QoS profile variable based on whether you are using the simulation (Turtlebot 3 Burger) or the real robot (Turtlebot 4)
+            reliability=ReliabilityPolicy.RELIABLE, # 1 for real, Qos.ReliabilityPolicy.RELIABLE for sim
+            durability=DurabilityPolicy.VOLATILE, # 2 for real, Qos.DurabilityPolicy.VOLATILE for sim
+            history=HistoryPolicy.UNKNOWN, # 1 for real, Qos.HistoryPolicy.UNKNOWN for sim
+            depth=10)
+    ):
 
         super().__init__("localizer")
-        
-        # TODO Part 3: Define the QoS profile variable based on whether you are using the simulation (Turtlebot 3 Burger) or the real robot (Turtlebot 4)
-        # Remember to define your QoS profile based on the information available in "ros2 topic info /odom --verbose" as explained in Tutorial 3
-        # odom_qos=QoSProfile(reliability=1, durability=2, history=1, depth=10) # For real robot. Update once in lab.
-        
+     
         self.loc_logger=Logger("robot_pose.csv", ["x", "y", "theta", "stamp"])
         self.pose=None
         
