@@ -38,10 +38,7 @@ class decision_maker(Node):
         
         # Instantiate the controller
         # TODO Part 5: Tune your parameters here
-        # Tuned parameters for better performance:
-        # Linear: kp=0.5 (proportional), kv=0.3 (derivative), ki=0.1 (integral)
-        # Angular: kp=1.0 (proportional), kv=0.4 (derivative), ki=0.05 (integral)
-    
+        #    
         if motion_type == POINT_PLANNER:
             self.controller=controller(klp=0.5, klv=0.3, kli=0.1, kap=1.0, kav=0.4, kai=0.05)
             self.planner=planner(POINT_PLANNER)    
@@ -52,7 +49,7 @@ class decision_maker(Node):
             self.planner=planner(TRAJECTORY_PLANNER)
 
         else:
-            print("Error! you don't have this planner", file=sys.stderr)
+            print("Error: Do not have this planner", file=sys.stderr)
 
 
         # Instantiate the localization, use rawSensor for now  
