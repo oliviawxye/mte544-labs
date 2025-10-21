@@ -45,7 +45,6 @@ class planner:
         Parabola trajectory: y = x^2 for x ∈ [0.0, 1.5]
         Returns a list of trajectory points: [[x1,y1], ..., [xn,yn]]
         """
-        import numpy as np
         
         # Generate x values from 0.0 to 1.5 with appropriate step size
         x = np.linspace(0.0, 1.5, 50)  # 50 points for smooth trajectory
