@@ -22,7 +22,7 @@ class PID_ctrl:
         self.ki=ki    # integral gain
         
         self.logger=Logger(filename_)
-        # Remeber that you are writing to the file named filename_ or errors.csv the following:
+        # Remeber that you asre writing to the file named filename_ or errors.csv the following:
             # error, error_dot, error_int and time stamp
 
     
@@ -35,9 +35,7 @@ class PID_ctrl:
             status: bool
 
         Returns:
-            tuple of 
-                float: unsaturated linear velocity (m/s)
-                float: unsaturated angular velocity (m/s)
+            float: unsaturated velocity (m/s or rad/s)
         """
         
         if status == False:
@@ -55,9 +53,7 @@ class PID_ctrl:
                 a two-element list of [error, timestamp (ns)]
 
         Returns:
-            tuple of 
-                float: unsaturated linear velocity (m/s)
-                float: unsaturated angular velocity (m/s)
+            float: unsaturated velocity (m/s or rad/s)
         """
         
         latest_error=stamped_error[0]

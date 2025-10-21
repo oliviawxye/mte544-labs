@@ -111,18 +111,27 @@ def main(args=None):
     # TODO Part 3: You might need to change the QoS profile based on whether you're using the real robot or in simulation.
     # Remember to define your QoS profile based on the information available in "ros2 topic info /odom --verbose" as explained in Tutorial 3
     
-    odom_qos=QoSProfile(reliability=Qos.ReliabilityPolicy.RELIABLE, durability=Qos.DurabilityPolicy.VOLATILE, history=Qos.HistoryPolicy.UNKNOWN, depth=10) # For simulation
-    #odom_qos=QoSProfile(reliability=1, durability=2, history=1, depth=10) # For real robot. Update once in lab.
+    odom_qos = QoSProfile(
+        reliability=Qos.ReliabilityPolicy.RELIABLE, 
+        durability=Qos.DurabilityPolicy.VOLATILE, 
+        history=Qos.HistoryPolicy.UNKNOWN, 
+        depth=10
+    ) # For simulation
+    
+    # odom_qos=QoSProfile(
+    #     reliability=1, 
+    #     durability=2, 
+    #     history=1, 
+    #     depth=10
+    # ) # For real robot. Update once in lab.
 
     # TODO Part 4: instantiate the decision_maker with the proper parameters for moving the robot
     if args.motion.lower() == "point":
-        DM=decision_maker(Twist, "/cmd_vel", 10, [-1.0, -1.0], 10, POINT_PLANNER)
+        DM=decision_maker(Twist, "/cmd_vel", odom_qos, [-1.0, -1.0], 10, POINT_PLANNER)
     elif args.motion.lower() == "trajectory":
-        DM=decision_maker(Twist, "/cmd_vel", 10, [-1.0, -1.0], 10, TRAJECTORY_PLANNER)
+        DM=decision_maker(Twist, "/cmd_vel", odom_qos, [-1.0, -1.0], 10, TRAJECTORY_PLANNER)
     else:
         print("invalid motion type", file=sys.stderr)        
-    
-    
     
     try:
         spin(DM)

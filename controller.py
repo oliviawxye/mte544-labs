@@ -49,7 +49,6 @@ class trajectoryController(controller):
         
         e_lin=calculate_linear_error(pose, finalGoal)
         e_ang=calculate_angular_error(pose, goal)
-
         
         linear_vel=self.PID_linear.update([e_lin, pose[3]], status)
         angular_vel=self.PID_angular.update([e_ang, pose[3]], status) 
