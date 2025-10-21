@@ -26,7 +26,7 @@ class PID_ctrl:
             # error, error_dot, error_int and time stamp
 
     
-    def update(self, stamped_error: list, status: bool) -> tuple[float, float]:
+    def update(self, stamped_error: list, status: bool) -> float:
         """Update the next linear and angular velocities
 
         Args:
@@ -35,9 +35,7 @@ class PID_ctrl:
             status: bool
 
         Returns:
-            tuple of 
-                float: unsaturated linear velocity (m/s)
-                float: unsaturated angular velocity (m/s)
+            float: unsaturated velocity (m/s or rad/s)
         """
         
         if status == False:
@@ -47,7 +45,7 @@ class PID_ctrl:
             return self.__update(stamped_error)
 
         
-    def __update(self, stamped_error: list) -> tuple[float, float]:
+    def __update(self, stamped_error: list) -> float:
         """Update the next linear and angular velocities
 
         Args:
@@ -55,9 +53,7 @@ class PID_ctrl:
                 a two-element list of [error, timestamp (ns)]
 
         Returns:
-            tuple of 
-                float: unsaturated linear velocity (m/s)
-                float: unsaturated angular velocity (m/s)
+            float: unsaturated velocity (m/s or rad/s)
         """
         
         latest_error=stamped_error[0]
@@ -80,10 +76,10 @@ class PID_ctrl:
         # This calculates the error derivative usingo only the last X history specified (3, here)
         for i in range(1, len(self.history)):
             
-            t0=Time.from_msg(self.history[i-1][1])
-            t1=Time.from_msg(self.history[i][1])
+            t0=self.history[i-1][1]
+            t1=self.history[i][1]
             
-            dt=(t1.nanoseconds - t0.nanoseconds) / 1e9
+            dt=(t1 - t0) / 1e9
             
             dt_avg+=dt
 
@@ -106,7 +102,7 @@ class PID_ctrl:
         error_int = sum_
         
         # TODO Part 4: Log your errors
-        self.logger.log_values(latest_error, error_dot, error_int, stamp)
+        self.logger.log_values([latest_error, error_dot, error_int, stamp])
 
         # Calculate proportional term
         p = self.kp * latest_error

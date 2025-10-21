@@ -15,8 +15,9 @@ class controller:
     def __init__(self, klp=0.2, klv=0.2, kli=0.2, kap=0.2, kav=0.2, kai=0.2):
         
         # TODO Part 5 and 6: Modify the below lines to test your PD, PI, and PID controller
-        self.PID_linear=PID_ctrl(P, klp, klv, kli, filename_="linear.csv")
-        self.PID_angular=PID_ctrl(P, kap, kav, kai, filename_="angular.csv")
+        # Change the first parameter to test different controllers: P=0, PD=1, PI=2, PID=3
+        self.PID_linear=PID_ctrl(PID, klp, klv, kli, filename_="linear.csv")
+        self.PID_angular=PID_ctrl(PID, kap, kav, kai, filename_="angular.csv")
 
     
     def vel_request(self, pose, goal, status):
@@ -28,9 +29,8 @@ class controller:
         angular_vel=self.PID_angular.update([e_ang, pose[3]], status)
         
         # TODO Part 4: Add saturation limits for the robot linear and angular velocity (hint: you can use np.clip function)
-        # Specifications documented here: https://turtlebot.github.io/turtlebot4-user-manual/overview/features.html#hardware-specifications
-        linear_vel = np.clip(linear_vel, [-0.31, 0.31]) 
-        angular_vel= np.clip(angular_vel, [-1.90, 1.90])
+        linear_vel = np.clip(linear_vel, -0.31, 0.31) 
+        angular_vel= np.clip(angular_vel, -1.90, 1.90)
         
         return linear_vel, angular_vel
     
@@ -49,15 +49,13 @@ class trajectoryController(controller):
         
         e_lin=calculate_linear_error(pose, finalGoal)
         e_ang=calculate_angular_error(pose, goal)
-
         
         linear_vel=self.PID_linear.update([e_lin, pose[3]], status)
         angular_vel=self.PID_angular.update([e_ang, pose[3]], status) 
 
         # TODO Part 5: Add saturation limits for the robot linear and angular velocity (hint: you can use np.clip function)
-
-        linear_vel = ... 
-        angular_vel= ... 
+        linear_vel = np.clip(linear_vel, -0.31, 0.31) 
+        angular_vel= np.clip(angular_vel, -1.90, 1.90) 
         
         return linear_vel, angular_vel
 
