@@ -88,8 +88,10 @@ class PID_ctrl:
             
             # TODO Part 5: calculate the error dot 
             # error_dot+= latest_error
+            # ^ Above bug causes derivative term to accumlate current error INSTEAD of rate of change. 
+            # Below fixed the robot toppling over. 
             error_dot += (self.history[i][0] - self.history[i-1][0]) / dt
-                        
+
         error_dot/=len(self.history)
         dt_avg/=len(self.history)
         
