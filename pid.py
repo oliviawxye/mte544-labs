@@ -26,7 +26,19 @@ class PID_ctrl:
             # error, error_dot, error_int and time stamp
 
     
-    def update(self, stamped_error, status):
+    def update(self, stamped_error: list, status: bool) -> tuple[float, float]:
+        """Update the next linear and angular velocities
+
+        Args:
+            stamped_error: list[float, float]: 
+                a two-element list of [error, timestamp (ns)]
+            status: bool
+
+        Returns:
+            tuple of 
+                float: unsaturated linear velocity (m/s)
+                float: unsaturated angular velocity (m/s)
+        """
         
         if status == False:
             self.__update(stamped_error)
@@ -35,13 +47,25 @@ class PID_ctrl:
             return self.__update(stamped_error)
 
         
-    def __update(self, stamped_error):
+    def __update(self, stamped_error: list) -> tuple[float, float]:
+        """Update the next linear and angular velocities
+
+        Args:
+            stamped_error: list[float, float]: 
+                a two-element list of [error, timestamp (ns)]
+
+        Returns:
+            tuple of 
+                float: unsaturated linear velocity (m/s)
+                float: unsaturated angular velocity (m/s)
+        """
         
         latest_error=stamped_error[0]
         stamp=stamped_error[1]
         
         self.history.append(stamped_error)        
         
+        # Ensures history never grows beyond it's intended length
         if (len(self.history) > self.history_length):
             self.history.pop(0)
         
@@ -53,6 +77,7 @@ class PID_ctrl:
         dt_avg=0
         error_dot=0
         
+        # This calculates the error derivative usingo only the last X history specified (3, here)
         for i in range(1, len(self.history)):
             
             t0=Time.from_msg(self.history[i-1][1])
@@ -66,36 +91,42 @@ class PID_ctrl:
             # for example dt=0.1 overwriting the calculation          
             
             # TODO Part 5: calculate the error dot 
-            # error_dot+= ... 
+            error_dot+= latest_error
             
         error_dot/=len(self.history)
         dt_avg/=len(self.history)
         
         # Compute the error integral
+        # This error integral continues to grow and grow and grow
         sum_=0
         for hist in self.history:
             # TODO Part 5: Gather the integration
-            # sum_+=...
-            pass
+            sum_+= hist[0]*dt_avg # adding up all the errors in history
         
-        error_int=sum_*dt_avg
+        error_int = sum_
         
         # TODO Part 4: Log your errors
-        self.logger.log_values( ... )
-        
+        self.logger.log_values(latest_error, error_dot, error_int, stamp)
+
+        # Calculate proportional term
+        p = self.kp * latest_error
+
+        # Calculate derivative term
+        d = self.kv * error_dot
+
+        # Calculate integral term
+        i = self.ki * error_int
+
         # TODO Part 4: Implement the control law of P-controller
         if self.type == P:
-            return ... # complete
+            return p
         
         # TODO Part 5: Implement the control law corresponding to each type of controller
         elif self.type == PD:
-            pass
-            # return ... # complete
+            return p + d
         
         elif self.type == PI:
-            pass
-            # return ... # complete
+            return p + i
         
         elif self.type == PID:
-            pass
-            # return ... # complete
+            return p + i + d
