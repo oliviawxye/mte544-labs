@@ -12,9 +12,9 @@ class planner:
     def __init__(self, type_):
         self.type=type_
         # Hardcoded trajectory selection - change this to switch between trajectories
-        # self.trajectory_type = PARABOLA_TRAJECTORY  # Change to SIGMOID_TRAJECTORY for sigmoid
+        self.trajectory_type = PARABOLA_TRAJECTORY  # Change to SIGMOID_TRAJECTORY for sigmoid
 
-        self.trajectory_type = SIGMOID_TRAJECTORY  # Sigmoid is smoother than parabola
+        # self.trajectory_type = SIGMOID_TRAJECTORY  # Sigmoid is smoother than parabola
     
     def plan(self, goalPoint=[-1.0, -1.0]):
         
