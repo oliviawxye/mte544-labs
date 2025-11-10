@@ -57,20 +57,36 @@ class localization(Node):
 
     def odom_and_pf_pose_callback(self, odom_msg: odom, pf_msg: odom):
         # TODO: You need to use the pf_msg to update the pose of the robot [x, y, theta, stamp]
-        self.pose=[ ... ]
+        self.pose=[
+            pf_msg.pose.pose.position.x, 
+            pf_msg.pose.pose.position.y,
+            euler_from_quaternion(pf_msg.pose.pose.quaternion), 
+            pf_msg.header.stamp
+        ]
         
         # TODO: You need to log the values from the odom and the particle filter based on the headers
         # TODO: odom values: x, y, theta, vx, yawrate
-        odom_values_list = [...]
+        # vx I will assume is velocity in the x direction
+        # yawrate I will assume is rotation about the z vectpr
+        odom_msg.pose.pose
+        odom_values_list = [
+            odom_msg.pose.pose.position.x,
+            odom_msg.pose.pose.position.y,
+            odom_msg.twist.twist.linear.x,
+            odom_msg.twist.twist.angular.z
+        ]
         # TODO: pf values: x, y, theta
-        pf_values_list = [...]
+        pf_values_list = [
+            pf_msg.pose.pose.position.x, 
+            pf_msg.pose.pose.position.y,
+            euler_from_quaternion(pf_msg.pose.pose.quaternion) 
+        ]
 
         stamp = Time.from_msg(odom_msg.header.stamp).nanoseconds
         # Put all the values in a list
         values_to_log = odom_values_list + pf_values_list + [stamp]
         self.loc_logger.log_values(values_to_log)
 
-        
     
     def odom_callback(self, pose_msg):
         self.pose=[ pose_msg.pose.pose.position.x,
