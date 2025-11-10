@@ -174,20 +174,30 @@ class mapManipulator(Node):
 
         from sklearn.neighbors import KDTree
         
+        # Get the indices of occupied cells (where pixel value < 10)
         indices = np.where(image_array < 10)
+        # Create an array of occupied cell indices
         indices_arr = np.array([indices[0], indices[1]]).T
         
+        # Convert occupied cell indices to positions
         occupied_points = self.cell_2_position(indices_arr)
+        # Create a grid of all cell indices in the map
         all_indices = np.array([[i, j] for i in range(self.height) for j in range(self.width)])
+        # Convert all cell indices to positions
         all_positions = self.cell_2_position(all_indices)
 
+        # Build a KDTree for efficient nearest neighbor search
         kdt=KDTree(occupied_points)
 
+        # Compute the distance from each cell to the nearest occupied cell
         dists=kdt.query(all_positions, k=1)[0][:]
+        # Compute the likelihood probabilities using a Gaussian model: as d increases, probability decreases and vice versa
         probabilities=np.exp( -(dists**2) / (2*self.laser_sig**2))
         
+        # Reshape the probabilities into map shape to form the likelihood field
         likelihood_field=probabilities.reshape(image_array.shape)
         
+        # Create a likelihood field image for visualization
         likelihood_field_img=np.array(255-255*probabilities.reshape(image_array.shape), dtype=np.int32)
         
         self.likelihood_img=likelihood_field_img

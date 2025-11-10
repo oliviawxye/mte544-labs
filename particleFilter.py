@@ -100,8 +100,11 @@ class particleFilter(Node):
         numParticles = self.numParticles
 
         # TODO: generate the particles around the initial pose (x, y, th) (you should use the std_particle_x, std_particle_y, std_particle_theta)
-        self.particlePoses = ... #size should be (numParticles, 3)
-
+        self.particlePoses = np.column_stack((
+            np.random.normal(x, self.std_particle_x, numParticles),
+            np.random.normal(y, self.std_particle_y, numParticles),
+            np.random.normal(th, self.std_particle_theta, numParticles),
+        ))
         self.particles = [particle(particle_, 1/numParticles) for particle_ in
                           self.particlePoses]
 
@@ -173,14 +176,16 @@ class particleFilter(Node):
         particles_weights = particles_weights / np.sum(particles_weights)
         
         # TODO: randomly sampling N particles from the list of particles based on their weights (hint: use np.random.choice)
-        sampled_particles = ...
+        indices = np.random.choice(len(self.particles), size=self.numParticles, p=particles_weights)
+        sampled_particles = [self.particles[idx] for idx in indices]
 
         for bp in sampled_particles:
             x, y, th = bp.getPose()
             # TODO: add noise to the x, y, and th, use the same std_noise for x, y, and th
-            new_x = x + ...
-            new_y = y + ...
-            new_th = th + ...
+            noise_x, noise_y, noise_th = np.random.normal(0.0, std_noise, 3)
+            new_x = x + noise_x
+            new_y = y + noise_y
+            new_th = th + noise_th
 
             new_particle = particle([new_x, new_y, new_th], bp.getWeight())
 
