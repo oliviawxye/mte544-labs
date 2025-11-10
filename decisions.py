@@ -140,6 +140,7 @@ def main(args=None):
     
     odom_qos=QoSProfile(reliability=2, durability=2, history=1, depth=10)
     
+    print("trying")
     if args.motion == "point":
         DM=decision_maker(Twist, "/cmd_vel", 10, motion_type=POINT_PLANNER)
     elif args.motion == "trajectory":
@@ -148,7 +149,7 @@ def main(args=None):
         print("invalid motion type", file=sys.stderr)
 
 
-
+    print("trying again")
     try:
         spin(DM)
     except SystemExit:
