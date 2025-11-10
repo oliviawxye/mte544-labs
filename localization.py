@@ -108,7 +108,7 @@ if __name__=="__main__":
     
     init()
     
-    LOCALIZER=localization()
+    LOCALIZER=localization(0)
     
     
     spin(LOCALIZER)
