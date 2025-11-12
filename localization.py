@@ -60,7 +60,7 @@ class localization(Node):
         self.pose=[
             pf_msg.pose.pose.position.x, 
             pf_msg.pose.pose.position.y,
-            euler_from_quaternion(pf_msg.pose.pose.quaternion), 
+            euler_from_quaternion(pf_msg.pose.pose.orientation), 
             pf_msg.header.stamp
         ]
         
@@ -79,7 +79,7 @@ class localization(Node):
         pf_values_list = [
             pf_msg.pose.pose.position.x, 
             pf_msg.pose.pose.position.y,
-            euler_from_quaternion(pf_msg.pose.pose.quaternion) 
+            euler_from_quaternion(pf_msg.pose.pose.orientation) 
         ]
 
         stamp = Time.from_msg(odom_msg.header.stamp).nanoseconds

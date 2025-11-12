@@ -62,7 +62,7 @@ class particleFilter(Node):
 
         # Create the map utilities object
         # TODO: You can tune your laser_sig here
-        self.mapUtilities = mapManipulator(mapFilename, laser_sig=0.1)
+        self.mapUtilities = mapManipulator(mapFilename, laser_sig=0.4)
         self.mapUtilities.make_likelihood_field()
         self.occ_map = self.mapUtilities.to_message()
         # create a Timer to publish the map every 1 second
@@ -233,6 +233,9 @@ class particleFilter(Node):
 
         w = odomMsg.twist.twist.angular.z
         v = odomMsg.twist.twist.linear.x
+
+        if (w == 0):
+            return
 
         if self.dt > 0.3:
             self.get_logger().info("dt {:.3f} is too high, setting it to 0.3".format(self.dt))
