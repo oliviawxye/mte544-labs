@@ -72,6 +72,7 @@ class localization(Node):
         odom_values_list = [
             odom_msg.pose.pose.position.x,
             odom_msg.pose.pose.position.y,
+            euler_from_quaternion(pf_msg.pose.pose.orientation),
             odom_msg.twist.twist.linear.x,
             odom_msg.twist.twist.angular.z
         ]
