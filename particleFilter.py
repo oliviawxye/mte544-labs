@@ -234,6 +234,9 @@ class particleFilter(Node):
         w = odomMsg.twist.twist.angular.z
         v = odomMsg.twist.twist.linear.x
 
+        if (w == 0):
+            return
+
         if self.dt > 0.3:
             self.get_logger().info("dt {:.3f} is too high, setting it to 0.3".format(self.dt))
         dt = np.min([self.dt, 0.3])

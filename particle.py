@@ -23,7 +23,7 @@ class particle:
         x1 = self.pose[0]
         y1 = self.pose[1]
         th1 = self.pose[2]
-
+            
         x2 = -v/w * sin(th1) + v/w * sin(th1 + w*dt)
         y2 = v/w * cos(th1) - v/w * cos(th1 + w*dt)
         th2 = w * dt

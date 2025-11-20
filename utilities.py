@@ -21,18 +21,18 @@ def normalize_angle(theta):
     return theta
 
 
-# def publishTransform(br, x,y,th, stamp, ego_odom_frame_id):
-#     t=TransformStamped()
-#     t.header.frame_id = "map"
-#     t.child_frame_id = ego_odom_frame_id
-#     t.header.stamp = stamp
-#     qt = quaternion_from_euler(th)
+def publishTransform(br, x,y,th, stamp, ego_odom_frame_id):
+    t=TransformStamped()
+    t.header.frame_id = "map"
+    t.child_frame_id = ego_odom_frame_id
+    t.header.stamp = stamp
+    qt = quaternion_from_euler(th)
 
-#     t.transform.rotation =qt
-#     t.transform.translation.x = x
-#     t.transform.translation.y = y
+    t.transform.rotation =qt
+    t.transform.translation.x = x
+    t.transform.translation.y = y
 
-#     br.sendTransform(t)
+    br.sendTransform(t)
 
 
 def publishTransform(br, x,y,th, stamp, ego_odom_frame_id):
