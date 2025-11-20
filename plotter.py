@@ -8,7 +8,7 @@ odom_y = []
 pf_x = []
 pf_y = []
 
-file = 'part5point/robotPose_fixed.csv'
+file = 'part5/robotPose_fixed.csv'
 
 with open(file, 'r') as f:
     reader = csv.reader(f)
@@ -25,8 +25,8 @@ with open(file, 'r') as f:
 # Plot
 plt.plot(odom_x, odom_y, 'bo-', label='Odometry')
 plt.plot(pf_x, pf_y, 'rs-', label='Particle Filter')
-plt.xlabel('x')
-plt.ylabel('y')
+plt.xlabel('x (m)')
+plt.ylabel('y (m)')
 plt.title("Part 5")
 plt.legend()
 plt.grid(True)
