@@ -186,7 +186,7 @@ def main(args=None):
 
 if __name__=="__main__":
     argParser=argparse.ArgumentParser(description="point or trajectory") 
-    argParser.add_argument("--motion", type=str, default="trajectory")
+    argParser.add_argument("--motion", type=str, default="point")
     args = argParser.parse_args()
 
     main(args)
