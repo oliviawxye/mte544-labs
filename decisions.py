@@ -84,6 +84,7 @@ class decision_maker(Node):
             return
         
         
+        self.get_logger().info("got pose")
         self.goal=self.planner.plan([self.localizer.getPose()[0], self.localizer.getPose()[1]],
                                      [msg.pose.position.x, msg.pose.position.y])
 
