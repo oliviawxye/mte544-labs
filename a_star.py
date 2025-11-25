@@ -94,12 +94,12 @@ def search(maze, start, end):
     
     # TODO PART 4 Create start and end node with initized values for g, h and f
     # Use None as parent if not defined
-    start_node = Node(parent=None, position=start)
+    start_node = Node(parent=None, position=(int(start[0]), int(start[1])))
     start_node.g = 0     # cost from start Node
     start_node.h = calculate_heuristic(CHOICE, start_point=start, goal_point=end)  # heuristic estimated cost to end Node
     start_node.f = start_node.g + start_node.h
 
-    end_node = Node(parent=None, position=end)
+    end_node = Node(parent=None, position=(int(end[0]), int(end[1])))
     end_node.g = calculate_heuristic(Heuristic.EUCLIDEAN, start_point=start, goal_point=end)
     end_node.h = 0       # heuristic estimated cost to end Node
     end_node.f = start_node.g+start_node.h
