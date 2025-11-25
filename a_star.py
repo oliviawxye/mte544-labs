@@ -33,7 +33,7 @@ class Heuristic(Enum):
 
 def calculate_heuristic(choice: Heuristic, start_point: tuple[int, int], goal_point: tuple[int, int]):
     """Calculates a heuristic cost between point a and b, based on the choice"""
-    h = np.iinfo(np.int32).max # some arbitrarily large number
+    h = 10000000000
     row_dist = abs(goal_point[0]-start_point[0])
     col_dist = abs(goal_point[1]-start_point[1])
     if choice == Heuristic.MANHATTAN:
