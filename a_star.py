@@ -176,7 +176,7 @@ def search(maze, start, end):
         visited_dict[current_node.position] = True
 
         # test if goal is reached or not, if yes then return the path
-        if current_node == end_node:
+        if current_node.position == end_node.position:
             print("found the end")
             return return_path(current_node, maze)
 
