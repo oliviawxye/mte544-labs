@@ -28,7 +28,7 @@ class planner:
         
         
         elif self.type==ASTAR_PLANNER:
-            self.get_logger().info("planning a star")
+            print("planning a star")
             return self.trajectory_planner(startPose, endPose)
         
         else:
@@ -55,7 +55,7 @@ class planner:
         # TODO: Call the A* search algorithm
         path = search(self.costMap, startPose, endPose)
         if path is None:
-            self.get_logger().info("no path?")
+            print("no path?")
             return None
         
         pathCart = self.m_utilites.cell_2_position(path)
