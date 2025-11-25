@@ -69,9 +69,6 @@ class decision_maker(Node):
 
         print("waiting for your input position, use 2D nav goal in rviz2")
 
-
-
-
     
     def designPathFor(self, msg: PoseStamped):
         while self.localizer.pose is None:
@@ -84,6 +81,7 @@ class decision_maker(Node):
             return
         
         
+        self.get_logger().info("got pose")
         self.goal=self.planner.plan([self.localizer.getPose()[0], self.localizer.getPose()[1]],
                                      [msg.pose.position.x, msg.pose.position.y])
 
@@ -91,6 +89,7 @@ class decision_maker(Node):
     def timerCallback(self):
         
         if self.goal is None:
+            self.get_logger().info("no goal")
             return
 
         spin_once(self.localizer)
