@@ -177,13 +177,14 @@ def search(maze, start, end):
 
         # test if goal is reached or not, if yes then return the path
         if current_node == end_node:
-
+            print("found the end")
             return return_path(current_node, maze)
 
         # Generate children from all adjacent squares
         children = []
 
         for new_position in move:
+            print("eep")
 
             # Get node position
             node_position = (current_node.position[0] + new_position[0], current_node.position[1] + new_position[1])
@@ -228,3 +229,4 @@ def search(maze, start, end):
 
             # Add the child to the yet_to_visit list
             yet_to_visit_dict[child.position] = child
+            
