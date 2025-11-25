@@ -100,7 +100,6 @@ class decision_maker(Node):
         
         
         vel_msg=Twist()
-        self.get_logger().info("twisting, apparently")
         
         if type(self.goal) is list:
             reached_goal=True if calculate_linear_error(self.localizer.getPose(), self.goal[-1]) <self.reachThreshold else False
