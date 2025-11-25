@@ -211,6 +211,7 @@ def search(maze, start, end):
 
         for child in children:
             print(f"child: {child.position}")
+            print(f"visited: {visited_dict}")
 
             # TODO PART 4 Child is on the visited dict (use get method to check if child is in visited dict, if not found then default value is False)
             if visited_dict.get(current_node.position) is not None:
