@@ -103,6 +103,8 @@ def search(maze, start, end):
     end_node.g = calculate_heuristic(Heuristic.EUCLIDEAN, start_point=start, goal_point=end)
     end_node.h = 0       # heuristic estimated cost to end Node
     end_node.f = start_node.g+start_node.h
+    print(f"start: {start_node.position}")
+    print(f"end: {end_node.position}")
 
     # Initialize both yet_to_visit and visited dictionary
     # in this dict we will put all node that are yet_to_visit for exploration.
@@ -184,7 +186,6 @@ def search(maze, start, end):
         children = []
 
         for new_position in move:
-            print("eep")
 
             # Get node position
             node_position = (current_node.position[0] + new_position[0], current_node.position[1] + new_position[1])
@@ -209,6 +210,7 @@ def search(maze, start, end):
         # Loop through children
 
         for child in children:
+            print(f"child: {child.position}")
 
             # TODO PART 4 Child is on the visited dict (use get method to check if child is in visited dict, if not found then default value is False)
             if (visited_dict[current_node.position] is not None):
