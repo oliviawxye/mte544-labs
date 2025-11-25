@@ -179,7 +179,6 @@ def search(maze, start, end):
 
         # test if goal is reached or not, if yes then return the path
         if current_node.position == end_node.position:
-            print("found the end")
             return return_path(current_node, maze)
 
         # Generate children from all adjacent squares
@@ -210,16 +209,9 @@ def search(maze, start, end):
         # Loop through children
 
         for child in children:
-            print(f"child: {child.position}")
-            print(f"visited: {visited_dict}")
-            
-            result = visited_dict.get(child.position)
-            print(f"get() returned: {result}")
-            print(f"result is not None: {result is not None}")
 
             # TODO PART 4 Child is on the visited dict (use get method to check if child is in visited dict, if not found then default value is False)
             if visited_dict.get(child.position) is not None:
-                print("visited")
                 continue
 
             # TODO PART 4 Create the f, g, and h values
@@ -233,10 +225,8 @@ def search(maze, start, end):
             child_node_in_yet_to_visit = yet_to_visit_dict.get(
                 child.position, False)
             if (child_node_in_yet_to_visit is not False) and (child.g >= child_node_in_yet_to_visit.g):
-                print("some random thing")
                 continue
 
             # Add the child to the yet_to_visit list
             yet_to_visit_dict[child.position] = child
-            print("to visit")
             
